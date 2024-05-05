@@ -15,7 +15,11 @@ public class Terminal {
 	 * @param args argumentos de entrada
 	 */
 	public static void main(String[] args) {
-		new ControladorBase().inicio();
+		try {
+			new ControladorBase().inicio();
+		} catch (InterruptedException e) {
+			System.out.println("Error en las esperas");
+		}
 	}
 
 }

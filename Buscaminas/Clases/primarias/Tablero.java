@@ -19,6 +19,8 @@ public class Tablero {
 	 * Array para mostrar po pantalla
 	 */
 	int[][] tableroMostrar;
+	
+	boolean[][] tableroComprobado;
 	/**
 	 * Tamaño del tablero
 	 */
@@ -62,6 +64,7 @@ public class Tablero {
 		}
 		this.tableroMinas=new boolean[size][size];
 		this.tableroMostrar=new int[size][size];
+		this.tableroComprobado=new boolean[size][size];
 		iniciarMinas();
 	}
 
@@ -75,6 +78,12 @@ public class Tablero {
 	}
 	public void setTableroMostrar(int i,int j,int k) {
 		this.tableroMostrar[i][j] = k;
+	}
+	public boolean getCeldaComprobada(int[] celda) {
+		return this.tableroComprobado[celda[0]][celda[1]];
+	}
+	public void setCeldaComprobada(int[] celda,boolean s) {
+		this.tableroComprobado[celda[0]][celda[1]]=s;
 	}
 	
 	//METODOS

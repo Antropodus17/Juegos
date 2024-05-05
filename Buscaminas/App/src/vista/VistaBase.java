@@ -13,7 +13,7 @@ public class VistaBase {
 	// ATRIBUTOS
 
 	public void bienvenida() {
-		System.out.println("Bienvenido al buscaminas\n" + "Seleccione la dificultad:\n" + "1) Periodista\n"
+		System.out.println(ansi.Color.green+"Bienvenido al buscaminas\n" + "Seleccione la dificultad:\n" + "1) Periodista\n"
 				+ "2) Fácil\n" + "3) Medio\n" + "4) Dificil\n"+"5) Infernal");
 	}
 
@@ -22,13 +22,13 @@ public class VistaBase {
 	 * 
 	 * @param t el tablero de juego
 	 */
-	public void mostrarTablero(Tablero t) {
+	public void mostrarTablero(Tablero t,int minas) {
 		char letras = 'A';
 		System.out.print("   ");
 		for (int i = 0; i < t.size; i++) {
 			System.out.print(letras++ + " ");
 		}
-		System.out.println();
+		System.out.println("\t\tMinas: "+minas);
 		for (int i = 0; i < t.size; i++) {
 			System.out.print((i<10?"0"+i:i)+ " ");
 			for (int j = 0; j < t.size; j++) {

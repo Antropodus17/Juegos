@@ -77,14 +77,18 @@ public class ModeloBase {
 				}
 			}
 		}
+		t.setCeldaComprobada(celda, true);
 		if (minas == 0) {
 			t.setTableroMostrar(celda[0], celda[1], -1);
 			for (int i = -1; i < 2; i++) {
 				for (int j = -1; j < 2; j++) {
 					if (((celda[0] + i >= 0) && (celda[1] + j >= 0))
 							&& ((celda[0] + i < t.size) && (celda[1] + j < t.size))) {
-						int[] nuevaCelda = { celda[0] - i, celda[1] - j };
-						revelarCasillas(t, nuevaCelda);
+						int[] nuevaCelda = { celda[0] + i, celda[1] + j };
+						if(!t.getCeldaComprobada(nuevaCelda)) {
+							revelarCasillas(t, nuevaCelda);
+						}
+						
 					}
 				}
 			}
@@ -115,13 +119,13 @@ public class ModeloBase {
 	private int selecionarNumero(int t) {
 		System.out.print("Introduzca el número de la fila: ");
 		String devolver = sc.nextLine();
-		String regrex = "(0";
+		String regrex = "(0?0";
 		for (int i = 1; i < t; i++) {
-			regrex += "|" + i;
+			regrex += "|0?" + i;
 		}
 		regrex += ")";
 		while (!Pattern.matches(regrex, devolver)) {
-			System.out.println("Fila no válida\nIntroduzca el número de la fila: ");
+			System.out.println(ansi.Color.red+"Fila no válida\nIntroduzca el número de la fila: "+ansi.Color.green);
 			devolver = sc.nextLine();
 		}
 		return Integer.parseInt(devolver);
@@ -135,18 +139,40 @@ public class ModeloBase {
 	private int selecionarLetra(int t) {
 		System.out.print("Introduzca la letra de la fila: ");
 		char patron = 'B';
-		String columna = sc.nextLine();
+		String columna = sc.nextLine().toUpperCase();
 		String regrex = "(A";
 		for (int i = 1; i < t; i++) {
 			regrex += "|" + patron++;
 		}
 		regrex += ")";
 		while (!Pattern.matches(regrex, columna.trim())) {
-			System.out.println("Columna no válida\nIntroduzca la letra de la columna: ");
+			System.out.println(ansi.Color.red+"Columna no válida\nIntroduzca la letra de la columna: "+ansi.Color.green);
 			columna = sc.nextLine().trim();
 		}
 		byte devolver = (byte) columna.charAt(0);
 		return devolver - 65;
+	}
+
+	
+	/**
+	 * Comprueba si ya ganaste
+	 * @param t el tablero a comprobar
+	 * @return true si ganaste
+	 */
+	public boolean win(Tablero t) {
+		int casillasRestantes=0;
+		for(int i=0;i<t.size;i++) {
+			for(int j=0;j<t.size;j++) {
+				int[] celda= {i,j};
+				if(!t.getCeldaComprobada(celda)) {
+					casillasRestantes++;
+				}
+			}
+		}
+		if(casillasRestantes==t.cantidadMinas) {
+			return true;
+		}
+		return false;
 	}
 
 }

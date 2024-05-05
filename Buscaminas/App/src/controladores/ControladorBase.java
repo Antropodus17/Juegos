@@ -38,17 +38,26 @@ public class ControladorBase {
 	// METODOS
 	/**
 	 * Metodo de inicio de la app
+	 * @throws InterruptedException 
 	 */
-	public void inicio() {
+	public void inicio() throws InterruptedException {
 		boolean seguirApp = true,seguirJuego=true;
 		while (seguirApp) {
 			vb.bienvenida();
 			t=new Tablero(mb.dificultad());
+			seguirJuego=true;
 			while(seguirJuego) {
-				vb.mostrarTablero(t);
+				vb.mostrarTablero(t,t.cantidadMinas);
 				if(mb.comprobarCelda(t, mb.elegirCelda(t))) {
-					vb.mostrarTablero(t);
-					System.out.println("Game over");
+					vb.mostrarTablero(t,t.cantidadMinas);
+					System.out.println(ansi.Color.red+"Game over"+ansi.Color.green);
+					Thread.sleep(3000);
+					seguirJuego=false;
+				}
+				if(mb.win(t)) {
+					vb.mostrarTablero(t, t.cantidadMinas);
+					System.out.println("Felicidades");
+					Thread.sleep(3000);
 					seguirJuego=false;
 				}
 			}
